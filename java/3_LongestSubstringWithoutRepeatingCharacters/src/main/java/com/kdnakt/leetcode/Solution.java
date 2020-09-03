@@ -9,16 +9,20 @@ public class Solution {
         if (s.length() <= 1) {
             return s.length();
         }
-        return findLongest(s, s.length() - 1);
+        int possibleMax = s.chars().distinct().toArray().length;
+        return findLongest(s, s.length() - 1, possibleMax);
     }
 
-    int findLongest(String s, int curr) {
+    int findLongest(String s, int curr, int possibleMax) {
         if (0 == curr) {
             return find(s);
         }
+        if ((s.length() - curr) > possibleMax) {
+            return find(s.substring(curr));
+        }
         return Math.max(
             find(s.substring(curr)),
-            findLongest(s, curr - 1));
+            findLongest(s, curr - 1, possibleMax));
     }
 
     int find(String s) {
