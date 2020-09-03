@@ -49,4 +49,9 @@ public class SolutionTest {
         );
     }
 
+    @Test
+    public void testOhomm() {
+        assertEquals(3, sol.lengthOfLongestSubstring("ohomm"));
+    }
+
 }
