@@ -18,7 +18,7 @@ public class Solution {
             return find(s);
         }
         if ((s.length() - curr - 1) > possibleMax) {
-            return find(s.substring(curr - 1));
+            return find(s.substring(curr));
         }
         return Math.max(
             find(s.substring(curr)),
