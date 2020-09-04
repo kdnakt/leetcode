@@ -59,4 +59,9 @@ public class SolutionTest {
         assertEquals(9, sol.lengthOfLongestSubstring("xaxhifdzyuddj"));
     }
 
+    @Test
+    public void testSjyzaeahyh() {
+        assertEquals(6, sol.lengthOfLongestSubstring("sjyzaeahyh"));
+    }
+
 }
