@@ -22,4 +22,9 @@ public class SolutionTest {
     public void testExample3() {
         assertEquals(21, sol.reverse(120));
     }
+
+    @Test
+    public void testOverInteger() {
+        assertEquals(0, sol.reverse(1534236469));
+    }
 }
