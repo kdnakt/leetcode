@@ -48,4 +48,9 @@ public class SolutionTest {
         assertEquals(1, sol.hammingWeight(-2147483648));
     }
 
+    @Test
+    public void testExample8() {
+        assertEquals(16, sol.hammingWeight(-16711936));
+    }
+
 }
