@@ -6,21 +6,12 @@ public class Solution {
 
     // you need to treat n as an unsigned value
     public int hammingWeight(int n) {
-        if (n == -1) return 32;
-        if (n == -2 || n == -3) return 31;
-        if (n < -3) {
-            int r = n % 2;
-            int w = hammingWeight(n + A + r);
-            if (w == 32) return 1;
-            return 31 - w;
+        int bits = 0;
+        int mask = 1;
+        for (int i = 0; i < 32; i++) {
+            if ((n & mask) != 0) bits++;
+            mask <<= 1;
         }
-        int res = 0;
-        int base = 2;
-        while (n > 0) {
-            if (n % base != 0) res++;
-            n -= n % base;
-            base *= 2;
-        }
-        return res;
+        return bits;
     }
 }
