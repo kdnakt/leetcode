@@ -1,7 +1,5 @@
 package com.kdnakt.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
 /**
  * Given a linked list, return the node where the cycle begins.
  * If there is no cycle, return null.
