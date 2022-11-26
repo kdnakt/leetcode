@@ -1,14 +1,23 @@
 struct Solution;
+use std::collections::HashMap;
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut res = Vec::new();
+        let mut map = HashMap::new();
+        nums.iter().enumerate()
+            .for_each(|(i, x)| {
+                map.insert(x, i);
+                ()
+            });
         for (i, x) in nums.iter().enumerate() {
             let expected = target - x;
-            for (j, y) in nums.iter().enumerate() {
-                if expected == *y && i != j {
-                    res.push(i as i32);
-                    res.push(j as i32);
-                    return res;
+            if map.contains_key(&expected) {
+                match map.get(&expected) {
+                    Some(index) => {
+                        if i != *index {
+                            return vec![i as i32, *index as i32];
+                        }
+                    },
+                    None => (),
                 }
             }
         }
