@@ -26,6 +26,31 @@ impl Solution {
 }
 
 pub fn main() {
+    // example 1
+    let l1 = Some(Box::new(ListNode{
+        val: 2,
+        next: Some(Box::new(ListNode{
+            val: 4,
+            next: Some(Box::new(ListNode::new(3)))
+        }))
+    }));
+    let l2 = Some(Box::new(ListNode{
+        val: 5,
+        next: Some(Box::new(ListNode{
+            val: 6,
+            next: Some(Box::new(ListNode::new(4)))
+        }))
+    }));
+    let expected = Some(Box::new(ListNode{
+        val: 7,
+        next: Some(Box::new(ListNode{
+            val: 0,
+            next: Some(Box::new(ListNode::new(8)))
+        }))
+    }));
+    assert_eq!(Solution::add_two_numbers(l1, l2), expected);
+
+    // example 2
     let l1 = Some(Box::new(ListNode::new(0)));
     let l2 = Some(Box::new(ListNode::new(0)));
     assert_eq!(Solution::add_two_numbers(l1, l2), Some(Box::new(ListNode::new(0))));
