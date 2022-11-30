@@ -54,4 +54,59 @@ pub fn main() {
     let l1 = Some(Box::new(ListNode::new(0)));
     let l2 = Some(Box::new(ListNode::new(0)));
     assert_eq!(Solution::add_two_numbers(l1, l2), Some(Box::new(ListNode::new(0))));
+
+    // example 3
+    let l1 = Some(Box::new(ListNode{
+        val: 9,
+        next: Some(Box::new(ListNode{
+            val: 9,
+            next: Some(Box::new(ListNode{
+                val: 9,
+                next: Some(Box::new(ListNode{
+                    val: 9,
+                    next: Some(Box::new(ListNode{
+                        val: 9,
+                        next: Some(Box::new(ListNode{
+                            val: 9,
+                            next: Some(Box::new(ListNode::new(9)))
+                        }))
+                    }))
+                }))
+            }))
+        }))
+    }));
+    let l2 = Some(Box::new(ListNode{
+        val: 9,
+        next: Some(Box::new(ListNode{
+            val: 9,
+            next: Some(Box::new(ListNode{
+                val: 9,
+                next: Some(Box::new(ListNode::new(9)))
+            }))
+        }))
+    }));
+    let expected = Some(Box::new(ListNode{
+        val: 8,
+        next: Some(Box::new(ListNode{
+            val: 9,
+            next: Some(Box::new(ListNode{
+                val: 9,
+                next: Some(Box::new(ListNode{
+                    val: 9,
+                    next: Some(Box::new(ListNode{
+                        val: 0,
+                        next: Some(Box::new(ListNode{
+                            val: 0,
+                            next: Some(Box::new(ListNode{
+                                val: 0,
+                                next: Some(Box::new(ListNode::new(1)))
+                            }))
+                        }))
+                    }))
+                }))
+            }))
+        }))
+    }));
+    assert_eq!(Solution::add_two_numbers(l1, l2), expected);
+
 }
