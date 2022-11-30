@@ -25,88 +25,36 @@ impl Solution {
     }
 }
 
+macro_rules! list_node {
+    ($x:expr) => {{
+        let val: i32 = $x;
+        Some(Box::new(ListNode::new(val)))
+    }};
+    ($x:expr, $($y:expr),+) => {{
+        let val: i32 = $x;
+        Some(Box::new(ListNode{
+            val: val,
+            next: list_node!($($y),+)
+        }))
+    }}
+}
+
 pub fn main() {
     // example 1
-    let l1 = Some(Box::new(ListNode{
-        val: 2,
-        next: Some(Box::new(ListNode{
-            val: 4,
-            next: Some(Box::new(ListNode::new(3)))
-        }))
-    }));
-    let l2 = Some(Box::new(ListNode{
-        val: 5,
-        next: Some(Box::new(ListNode{
-            val: 6,
-            next: Some(Box::new(ListNode::new(4)))
-        }))
-    }));
-    let expected = Some(Box::new(ListNode{
-        val: 7,
-        next: Some(Box::new(ListNode{
-            val: 0,
-            next: Some(Box::new(ListNode::new(8)))
-        }))
-    }));
+    let l1 = list_node!(2, 4, 3);
+    let l2 = list_node!(5, 6, 4);
+    let expected = list_node!(7, 0, 8);
     assert_eq!(Solution::add_two_numbers(l1, l2), expected);
 
     // example 2
-    let l1 = Some(Box::new(ListNode::new(0)));
-    let l2 = Some(Box::new(ListNode::new(0)));
-    assert_eq!(Solution::add_two_numbers(l1, l2), Some(Box::new(ListNode::new(0))));
+    let l1 = list_node!(0);
+    let l2 = list_node!(0);
+    assert_eq!(Solution::add_two_numbers(l1, l2), list_node!(0));
 
     // example 3
-    let l1 = Some(Box::new(ListNode{
-        val: 9,
-        next: Some(Box::new(ListNode{
-            val: 9,
-            next: Some(Box::new(ListNode{
-                val: 9,
-                next: Some(Box::new(ListNode{
-                    val: 9,
-                    next: Some(Box::new(ListNode{
-                        val: 9,
-                        next: Some(Box::new(ListNode{
-                            val: 9,
-                            next: Some(Box::new(ListNode::new(9)))
-                        }))
-                    }))
-                }))
-            }))
-        }))
-    }));
-    let l2 = Some(Box::new(ListNode{
-        val: 9,
-        next: Some(Box::new(ListNode{
-            val: 9,
-            next: Some(Box::new(ListNode{
-                val: 9,
-                next: Some(Box::new(ListNode::new(9)))
-            }))
-        }))
-    }));
-    let expected = Some(Box::new(ListNode{
-        val: 8,
-        next: Some(Box::new(ListNode{
-            val: 9,
-            next: Some(Box::new(ListNode{
-                val: 9,
-                next: Some(Box::new(ListNode{
-                    val: 9,
-                    next: Some(Box::new(ListNode{
-                        val: 0,
-                        next: Some(Box::new(ListNode{
-                            val: 0,
-                            next: Some(Box::new(ListNode{
-                                val: 0,
-                                next: Some(Box::new(ListNode::new(1)))
-                            }))
-                        }))
-                    }))
-                }))
-            }))
-        }))
-    }));
+    let l1 = list_node!(9, 9, 9, 9, 9, 9, 9);
+    let l2 = list_node!(9, 9, 9, 9);
+    let expected = list_node!(8, 9, 9, 9, 0, 0, 0, 1);
     assert_eq!(Solution::add_two_numbers(l1, l2), expected);
 
 }
