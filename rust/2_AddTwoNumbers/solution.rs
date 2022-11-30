@@ -21,8 +21,36 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>
     ) -> Option<Box<ListNode>> {
-        Some(Box::new(ListNode::new(0)))
+        solve(&l1, &l2, 0)
     }
+}
+
+pub fn solve(
+    mut l1: &Option<Box<ListNode>>,
+    mut l2: &Option<Box<ListNode>>,
+    mut up: i32,
+) -> Option<Box<ListNode>> {
+    let mut sum = up;
+    if l1.is_none() && l2.is_none() {
+        if up > 0 {
+            return Some(Box::new(ListNode::new(up)));
+        }
+        return None;
+    }
+    if let Some(n) = l1 {
+        sum += n.val;
+        l1 = &n.next;
+    }
+    if let Some(n) = l2 {
+        sum += n.val;
+        l2 = &n.next;
+    }
+    up = sum / 10;
+    sum = sum % 10;
+    Some(Box::new(ListNode{
+        val: sum,
+        next: solve(l1, l2, up),
+    }))
 }
 
 macro_rules! list_node {
