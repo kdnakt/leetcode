@@ -1,7 +1,15 @@
 struct Solution;
 impl Solution {
     pub fn is_power_of_two(n: i32) -> bool {
-        false
+        if n == 0 {
+            false
+        } else if n == 1 {
+            true
+        } else if n % 2 == 1 {
+            false
+        } else {
+            Solution::is_power_of_two(n / 2)
+        }
     }
 }
 
