@@ -32,7 +32,12 @@ impl MyQueue {
     }
     
     fn empty(&self) -> bool {
-        self.vec.len() - 1 != self.curr
+        let len = self.vec.len();
+        if len == 0 {
+            true
+        } else {
+            len - 1 < self.curr
+        }
     }
 }
 
@@ -53,4 +58,17 @@ fn main() {
     assert_eq!(obj.peek(), 1);
     assert_eq!(obj.pop(), 1);
     assert_eq!(obj.empty(), false);
+
+    // Failed test
+    let mut obj = MyQueue::new();
+    obj.push(1);
+    obj.push(2);
+    assert_eq!(obj.peek(), 1);
+    obj.push(3);
+    assert_eq!(obj.pop(), 1);
+    assert_eq!(obj.peek(), 2);
+    assert_eq!(obj.empty(), false);
+
+    let obj = MyQueue::new();
+    assert_eq!(obj.empty(), true);
 }
