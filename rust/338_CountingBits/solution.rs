@@ -1,8 +1,21 @@
 struct Solution;
 impl Solution {
     pub fn count_bits(n: i32) -> Vec<i32> {
-        Vec::new()
+        let mut vec = Vec::new();
+        for i in 0..=n {
+            vec.push(count(i));
+        }
+        vec
     }
+}
+
+fn count(mut i: i32) -> i32 {
+    let mut count = 0;
+    while i > 0 {
+        count += i & 1;
+        i = i >> 1;
+    }
+    count
 }
 
 fn main() {
