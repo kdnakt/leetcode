@@ -1,0 +1,1 @@
+rustc solution.rs && ./solution
