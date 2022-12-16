@@ -1,7 +1,17 @@
 struct Solution;
 impl Solution {
     pub fn pivot_index(nums: Vec<i32>) -> i32 {
-        0
+        let mut left_sum = 0;
+        let mut right_sum = nums.clone().into_iter()
+                .fold(0, |acc, num| acc + num);
+        for (i, e) in nums.iter().enumerate() {
+            right_sum -= e;
+            if left_sum == right_sum {
+                return i as i32;
+            }
+            left_sum += e;
+        }
+        -1
     }
 }
 
