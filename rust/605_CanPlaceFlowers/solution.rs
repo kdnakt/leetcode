@@ -1,23 +1,31 @@
 struct Solution;
 impl Solution {
     pub fn can_place_flowers(flowerbed: Vec<i32>, n: i32) -> bool {
+        println!("\nvec={:?}", flowerbed);
         let mut queue = MyQueue::new();
         flowerbed.into_iter().for_each(|i| queue.push(i));
 
         let mut available_count = 0;
         let mut prev = 0;
-        let mut curr = 0;
-        let mut next = 0;
-        while queue.has_next() {
+        let mut curr = queue.pop();
+        let mut next = queue.peek();
+        loop {
+            println!("{} {} {}", prev, curr, next);
+            if prev == 0 && curr == 0 && next == 0 {
+                println!("  available!");
+                available_count += 1;
+                prev = 1;
+            } else {
+                prev = curr;
+            }
+            if !queue.has_next() {
+                break;
+            }
             curr = queue.pop();
             next = queue.peek();
-            if prev == 0 && curr == 0 && next == 0 && queue.has_next() {
-                available_count += 1;
-            }
-            prev = curr;
         }
-        
-        n == available_count
+        println!("{} == {} ?", n, available_count);
+        n <= available_count
     }
 }
 
@@ -49,7 +57,7 @@ impl MyQueue {
     
     fn has_next(&self) -> bool {
         let len = self.vec.len();
-        self.curr < len - 1
+        self.curr < len
     }
 }
 
@@ -63,4 +71,19 @@ fn main() {
     let flowerbed = vec![1,0,0,0,1];
     let n = 2;
     assert_eq!(Solution::can_place_flowers(flowerbed, n), false);
+    
+    // Failed
+    let flowerbed = vec![1,0,0,0,0,1];
+    let n = 2;
+    assert_eq!(Solution::can_place_flowers(flowerbed, n), false);
+    
+    // Failed
+    let flowerbed = vec![1,0,0,0,1,0,0];
+    let n = 2;
+    assert_eq!(Solution::can_place_flowers(flowerbed, n), true);
+    
+    // Failed
+    let flowerbed = vec![0,0,1,0,0];
+    let n = 1;
+    assert_eq!(Solution::can_place_flowers(flowerbed, n), true);
 }
