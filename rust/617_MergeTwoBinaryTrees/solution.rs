@@ -24,7 +24,9 @@ impl Solution {
         root1: Option<Rc<RefCell<TreeNode>>>,
         root2: Option<Rc<RefCell<TreeNode>>>
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        None
+        let r1 = root1.as_ref().map_or(0, |n| n.borrow().val);
+        let r2 = root2.as_ref().map_or(0, |n| n.borrow().val);
+        tree_node(r1 + r2)
     }
 }
 
@@ -45,6 +47,14 @@ fn tree_nodes(
 }
 
 fn main() {
+    // Example 0
+    let root1 = tree_node(3);
+    let root2 = tree_node(5);
+    let expected = tree_node(8);
+    assert_eq!(Solution::merge_trees(root1, root2), expected);
+}
+
+fn main2() {
     // Example 1
     let root1 = tree_nodes(1,
         tree_nodes(3, tree_node(5), None),
