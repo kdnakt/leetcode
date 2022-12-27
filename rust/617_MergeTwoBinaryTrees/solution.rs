@@ -24,10 +24,27 @@ impl Solution {
         root1: Option<Rc<RefCell<TreeNode>>>,
         root2: Option<Rc<RefCell<TreeNode>>>
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        let r1 = root1.as_ref().map_or(0, |n| n.borrow().val);
-        let r2 = root2.as_ref().map_or(0, |n| n.borrow().val);
-        tree_node(r1 + r2)
+        merge_trees(root1.as_ref(), root2.as_ref())
     }
+}
+
+pub fn merge_trees(
+    root1: Option<&Rc<RefCell<TreeNode>>>,
+    root2: Option<&Rc<RefCell<TreeNode>>>
+) -> Option<Rc<RefCell<TreeNode>>> {
+    let r1 = match root1 {
+        Some(ref r1) => r1,
+        None => return root2.map(|n| Rc::clone(n)),
+    };
+    let r2 = match root2 {
+        Some(ref r2) => r2.borrow(),
+        None => return Some(Rc::clone(r1)),
+    };
+    let r1 = r1.borrow();
+    tree_nodes(r1.val + r2.val,
+        merge_trees(r1.left.as_ref(), r2.left.as_ref()),
+        merge_trees(r1.right.as_ref(), r2.right.as_ref())
+    )
 }
 
 fn tree_node(val: i32) -> Option<Rc<RefCell<TreeNode>>> {
@@ -52,9 +69,14 @@ fn main() {
     let root2 = tree_node(5);
     let expected = tree_node(8);
     assert_eq!(Solution::merge_trees(root1, root2), expected);
-}
+//     // Example 2
+//     let root1 = tree_node(3);
+//     let root2 = tree_nodes(5, tree_node(7), None);
+//     let expected = tree_nodes(8, tree_node(7), None);
+//     assert_eq!(Solution::merge_trees(root1, root2), expected);
+// }
 
-fn main2() {
+// fn main2() {
     // Example 1
     let root1 = tree_nodes(1,
         tree_nodes(3, tree_node(5), None),
