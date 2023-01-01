@@ -1,10 +1,38 @@
 struct Solution;
 impl Solution {
     pub fn maximum_product(mut nums: Vec<i32>) -> i32 {
-        nums.sort();
         let len = nums.len();
-        let mut iter = nums.iter();
-        iter.nth(len - 3).unwrap() * iter.next().unwrap() * iter.next().unwrap()
+        if len == 3 {
+            let mut iter = nums.iter();
+            return iter.next().unwrap() * iter.next().unwrap() * iter.next().unwrap()
+        }
+        nums.sort();
+        if 6 < len {
+            let mut iter = nums.iter();
+            let mut temp = Vec::new();
+            temp.push(*iter.next().unwrap());
+            temp.push(*iter.next().unwrap());
+            temp.push(*iter.next().unwrap());
+            temp.push(*iter.nth(len - 6).unwrap());
+            temp.push(*iter.next().unwrap());
+            temp.push(*iter.next().unwrap());
+            nums = temp;
+        }
+        let len = nums.len();
+        let mut res = i32::MIN;
+        for i in 0..(len-2) {
+            for j in (i+1)..(len-1) {
+                for k in (j+1)..len {
+                    let mut it = nums.iter().clone();
+                    let num_i = *it.nth(i).unwrap();
+                    let num_j = *it.nth(j-i-1).unwrap();
+                    let num_k = *it.nth(k-j-1).unwrap();
+                    let candidate = num_i * num_j * num_k;
+                    res = std::cmp::max(res, candidate);
+                }
+            }
+        }
+        res
     }
 }
 
