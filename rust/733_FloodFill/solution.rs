@@ -19,8 +19,23 @@ impl Solution {
             for j in 0..n {
                 println!("i={i},j={j}");
                 if image.get(i).unwrap().get(j).unwrap() == starting_color {
-                    row.insert(j, color);
-                    row.remove(j + 1);
+                    let north = if 0 < i {
+                        image.get(i - 1).unwrap().get(j).unwrap() == starting_color
+                    } else { false };
+                    let west = if 0 < j {
+                        image.get(i).unwrap().get(j - 1).unwrap() == starting_color
+                    } else { false };
+                    let south = if i + 1 < m {
+                        image.get(i + 1).unwrap().get(j).unwrap() == starting_color
+                    } else { false };
+                    let east = if j + 1 < n {
+                        image.get(i).unwrap().get(j + 1).unwrap() == starting_color
+                    } else { false };
+                    println!("north={north},west={west},east={east},south={south}");
+                    if north || west || east || south {
+                        row.insert(j, color);
+                        row.remove(j + 1);
+                    }
                 }
             }
         }
