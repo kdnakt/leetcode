@@ -101,4 +101,18 @@ fn main() {
             vec![2,0,1],
     ];
     assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
+
+    // Float Example
+    let image = vec![
+            vec![1,0,1],
+            vec![1,0,1],
+    ];
+    let sr = 0;
+    let sc = 2;
+    let color = 2;
+    let expected = vec![
+            vec![1,0,2],
+            vec![1,0,2],
+    ];
+    assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
 }
