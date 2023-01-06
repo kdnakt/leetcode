@@ -18,29 +18,52 @@ impl Solution {
             let row: &mut Vec<i32> = res.get_mut(i).unwrap();
             for j in 0..n {
                 println!("i={i},j={j}");
-                if image.get(i).unwrap().get(j).unwrap() == starting_color {
-                    let north = if 0 < i {
-                        image.get(i - 1).unwrap().get(j).unwrap() == starting_color
-                    } else { false };
-                    let west = if 0 < j {
-                        image.get(i).unwrap().get(j - 1).unwrap() == starting_color
-                    } else { false };
-                    let south = if i + 1 < m {
-                        image.get(i + 1).unwrap().get(j).unwrap() == starting_color
-                    } else { false };
-                    let east = if j + 1 < n {
-                        image.get(i).unwrap().get(j + 1).unwrap() == starting_color
-                    } else { false };
-                    println!("north={north},west={west},east={east},south={south}");
-                    if north || west || east || south {
-                        row.insert(j, color);
-                        row.remove(j + 1);
-                    }
+                if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, Direction::All, starting_color) {
+                    println!("  Reachable");
+                    row.insert(j, color);
+                    row.remove(j + 1);
+                } else {
+                    println!("  Not Reachable");
                 }
             }
         }
         res
     }
+}
+
+#[derive(PartialEq)]
+enum Direction {
+    North, West, South, East, All,
+}
+
+fn is_reachable(
+    image: &Vec<Vec<i32>>,
+    sr: usize, sc: usize,
+    i: usize, j: usize,
+    m: usize, n: usize,
+    from: Direction,
+    starting_color: &i32
+) -> bool {
+    if sr == i && sc == j {
+        return true;
+    }
+    if image.get(i).unwrap().get(j).unwrap() != starting_color {
+        return false;
+    }
+    let north = if from != Direction::North && 0 < i {
+        is_reachable(image, sr, sc, i - 1, j, m, n, Direction::South, starting_color)
+    } else { false };
+    let west = if from != Direction::West && 0 < j {
+        is_reachable(image, sr, sc, i, j - 1, m, n, Direction::East, starting_color)
+    } else { false };
+    let south = if from != Direction::South && i + 1 < m {
+        is_reachable(image, sr, sc, i + 1, j, m, n, Direction::North, starting_color)
+    } else { false };
+    let east = if from != Direction::East && j + 1 < n {
+        is_reachable(image, sr, sc, i, j + 1, m, n, Direction::West, starting_color)
+    } else { false };
+    println!("north={north},west={west},east={east},south={south}");
+    north || west || east || south
 }
 
 fn main() {
