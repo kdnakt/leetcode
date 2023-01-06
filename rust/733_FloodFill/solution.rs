@@ -31,7 +31,7 @@ impl Solution {
     }
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 enum Direction {
     North, West, South, East, All,
 }
@@ -44,26 +44,37 @@ fn is_reachable(
     from: Direction,
     starting_color: &i32
 ) -> bool {
+    println!("i={i},j={j},from={:?}", from);
     if sr == i && sc == j {
+        println!("  is source");
         return true;
     }
     if image.get(i).unwrap().get(j).unwrap() != starting_color {
+        println!("  is NOT reachable");
         return false;
     }
-    let north = if from != Direction::North && 0 < i {
-        is_reachable(image, sr, sc, i - 1, j, m, n, Direction::South, starting_color)
-    } else { false };
-    let west = if from != Direction::West && 0 < j {
-        is_reachable(image, sr, sc, i, j - 1, m, n, Direction::East, starting_color)
-    } else { false };
-    let south = if from != Direction::South && i + 1 < m {
-        is_reachable(image, sr, sc, i + 1, j, m, n, Direction::North, starting_color)
-    } else { false };
-    let east = if from != Direction::East && j + 1 < n {
-        is_reachable(image, sr, sc, i, j + 1, m, n, Direction::West, starting_color)
-    } else { false };
-    println!("north={north},west={west},east={east},south={south}");
-    north || west || east || south
+    if from != Direction::North && 0 < i
+            && is_reachable(image, sr, sc, i - 1, j, m, n, Direction::South, starting_color) {
+        println!("  is reachable from south");
+        return true;
+    }
+    if from != Direction::West && 0 < j
+            && is_reachable(image, sr, sc, i, j - 1, m, n, Direction::East, starting_color) {
+        println!("  is reachable from east");
+        return true;
+    }
+    if from != Direction::South && i + 1 < m
+            && is_reachable(image, sr, sc, i + 1, j, m, n, Direction::North, starting_color) {
+        println!("  is reachable from north");
+        return true;
+    }
+    if from != Direction::East && j + 1 < n
+            && is_reachable(image, sr, sc, i, j + 1, m, n, Direction::West, starting_color) {
+        println!("  is reachable from west");
+        return true;
+    }
+    println!("  is NOT reachable");
+    false
 }
 
 fn main() {
@@ -136,6 +147,20 @@ fn main() {
     let expected = vec![
             vec![1,0,2],
             vec![1,0,2],
+    ];
+    assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
+
+    // Failed test 1
+    let image = vec![
+        vec![0,0,0],
+        vec![0,0,0],
+    ];
+    let sr = 1;
+    let sc = 0;
+    let color = 2;
+    let expected = vec![
+        vec![2,2,2],
+        vec![2,2,2],
     ];
     assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
 }
