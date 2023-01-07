@@ -163,4 +163,18 @@ fn main() {
         vec![2,2,2],
     ];
     assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
+
+    // Failed test 2
+    let image = vec![
+        vec![0,1,1],
+        vec![1,1,1],
+    ];
+    let sr = 1;
+    let sc = 0;
+    let color = 2;
+    let expected = vec![
+        vec![0,2,2],
+        vec![2,2,2],
+    ];
+    assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
 }
