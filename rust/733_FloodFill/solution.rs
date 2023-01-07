@@ -4,7 +4,7 @@ impl Solution {
         image: Vec<Vec<i32>>,
         sr: i32, sc: i32, color: i32
     ) -> Vec<Vec<i32>> {
-        println!("\nimage={:?},sr={sr},sc={sc},color={color}", image);
+        println!("\n*****\nimage={:?},sr={sr},sc={sc},color={color}", image);
         let starting_color = image.get(sr as usize).unwrap().get(sc as usize).unwrap();
         println!("starting_color={starting_color}");
         if starting_color == &color {
@@ -18,12 +18,12 @@ impl Solution {
             let row: &mut Vec<i32> = res.get_mut(i).unwrap();
             for j in 0..n {
                 println!("i={i},j={j}");
-                if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, Direction::All, starting_color) {
-                    println!("  Reachable");
+                if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, Vec::new(), starting_color) {
+                    println!("  Reachable\n");
                     row.insert(j, color);
                     row.remove(j + 1);
                 } else {
-                    println!("  Not Reachable");
+                    println!("  Not Reachable\n");
                 }
             }
         }
@@ -31,49 +31,78 @@ impl Solution {
     }
 }
 
-#[derive(PartialEq, Debug)]
-enum Direction {
-    North, West, South, East, All,
-}
-
 fn is_reachable(
     image: &Vec<Vec<i32>>,
     sr: usize, sc: usize,
     i: usize, j: usize,
     m: usize, n: usize,
-    from: Direction,
+    mut cache: Vec<String>,
     starting_color: &i32
 ) -> bool {
-    println!("i={i},j={j},from={:?}", from);
+    println!("i={i},j={j},cache={:?}", cache);
     if sr == i && sc == j {
+        let cache_key = format!("{:02}{:02}", i, j);
+        cache.push(cache_key);
         println!("  is source");
         return true;
     }
     if image.get(i).unwrap().get(j).unwrap() != starting_color {
-        println!("  is NOT reachable");
+        let cache_key = format!("{:02}{:02}", i, j);
+        cache.push(cache_key);
+        println!("  is NOT reachable (wrong color)");
         return false;
     }
-    if from != Direction::North && 0 < i
-            && is_reachable(image, sr, sc, i - 1, j, m, n, Direction::South, starting_color) {
-        println!("  is reachable from south");
-        return true;
+    if 0 < i {
+        let cache_key = format!("{:02}{:02}", i - 1, j);
+        if cache.contains(&cache_key) {
+            println!("  is coming from south");
+            return false;
+        }
+        cache.push(cache_key);
+        if is_reachable(image, sr, sc, i - 1, j, m, n, cache.clone(), starting_color) {
+            println!("  is reachable from south");
+            return true;
+        }
     }
-    if from != Direction::West && 0 < j
-            && is_reachable(image, sr, sc, i, j - 1, m, n, Direction::East, starting_color) {
-        println!("  is reachable from east");
-        return true;
+    if 0 < j {
+        let cache_key = format!("{:02}{:02}", i, j - 1);
+        if cache.contains(&cache_key) {
+            println!("  is coming from east");
+            return false;
+        }
+        cache.push(cache_key);
+        if is_reachable(image, sr, sc, i, j - 1, m, n, cache.clone(), starting_color) {
+            println!("  is reachable from east");
+            return true;
+        }
     }
-    if from != Direction::South && i + 1 < m
-            && is_reachable(image, sr, sc, i + 1, j, m, n, Direction::North, starting_color) {
-        println!("  is reachable from north");
-        return true;
+    if i + 1 < m {
+        let cache_key = format!("{:02}{:02}", i + 1, j);
+        if cache.contains(&cache_key) {
+            println!("  is coming from north");
+            return false;
+        }
+        cache.push(cache_key);
+        if is_reachable(image, sr, sc, i + 1, j, m, n, cache.clone(), starting_color) {
+            println!("  is reachable from north");
+            return true;
+        }
     }
-    if from != Direction::East && j + 1 < n
-            && is_reachable(image, sr, sc, i, j + 1, m, n, Direction::West, starting_color) {
-        println!("  is reachable from west");
-        return true;
+    if j + 1 < n {
+        let cache_key = format!("{:02}{:02}", i, j + 1);
+        if cache.contains(&cache_key) {
+            println!("  is coming from west");
+            return false;
+        }
+        cache.push(cache_key);
+        if is_reachable(image, sr, sc, i, j + 1, m, n, cache.clone(), starting_color) {
+            println!("  is reachable from west");
+            return true;
+        }
     }
-    println!("  is NOT reachable");
+    let cache_key = format!("{:02}{:02}", i, j);
+    cache.push(cache_key);
+    println!("  is NOT reachable (no path)");
     false
 }
 
