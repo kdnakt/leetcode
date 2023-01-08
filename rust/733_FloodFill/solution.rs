@@ -18,7 +18,8 @@ impl Solution {
             let row: &mut Vec<i32> = res.get_mut(i).unwrap();
             for j in 0..n {
                 println!("i={i},j={j}");
-                if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, Vec::new(), starting_color) {
+                let mut cache: Vec<String> = Vec::new();
+                if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, &mut cache, starting_color) {
                     println!("  Reachable\n");
                     row.insert(j, color);
                     row.remove(j + 1);
@@ -36,7 +37,7 @@ fn is_reachable(
     sr: usize, sc: usize,
     i: usize, j: usize,
     m: usize, n: usize,
-    mut cache: Vec<String>,
+    cache: &mut Vec<String>,
     starting_color: &i32
 ) -> bool {
     println!("i={i},j={j},cache={:?}", cache);
@@ -53,9 +54,8 @@ fn is_reachable(
     if 0 < i {
         let cache_key = format!("{:02}{:02}", i - 1, j);
         if !cache.contains(&cache_key) {
-            let mut temp = cache.clone();
-            temp.push(cache_key);
-            if is_reachable(image, sr, sc, i - 1, j, m, n, temp, starting_color) {
+            cache.push(cache_key);
+            if is_reachable(image, sr, sc, i - 1, j, m, n, cache, starting_color) {
                 println!("  is reachable from south");
                 return true;
             }
@@ -64,9 +64,8 @@ fn is_reachable(
     if 0 < j {
         let cache_key = format!("{:02}{:02}", i, j - 1);
         if !cache.contains(&cache_key) {
-            let mut temp = cache.clone();
-            temp.push(cache_key);
-            if is_reachable(image, sr, sc, i, j - 1, m, n, temp, starting_color) {
+            cache.push(cache_key);
+            if is_reachable(image, sr, sc, i, j - 1, m, n, cache, starting_color) {
                 println!("  is reachable from east");
                 return true;
             }
@@ -75,9 +74,8 @@ fn is_reachable(
     if i + 1 < m {
         let cache_key = format!("{:02}{:02}", i + 1, j);
         if !cache.contains(&cache_key) {
-            let mut temp = cache.clone();
-            temp.push(cache_key);
-            if is_reachable(image, sr, sc, i + 1, j, m, n, temp, starting_color) {
+            cache.push(cache_key);
+            if is_reachable(image, sr, sc, i + 1, j, m, n, cache, starting_color) {
                 println!("  is reachable from north");
                 return true;
             }
@@ -86,9 +84,8 @@ fn is_reachable(
     if j + 1 < n {
         let cache_key = format!("{:02}{:02}", i, j + 1);
         if !cache.contains(&cache_key) {
-            let mut temp = cache.clone();
-            temp.push(cache_key);
-            if is_reachable(image, sr, sc, i, j + 1, m, n, temp, starting_color) {
+            cache.push(cache_key);
+            if is_reachable(image, sr, sc, i, j + 1, m, n, cache, starting_color) {
                 println!("  is reachable from west");
                 return true;
             }
