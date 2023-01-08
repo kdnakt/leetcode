@@ -47,8 +47,6 @@ fn is_reachable(
         return true;
     }
     if image.get(i).unwrap().get(j).unwrap() != starting_color {
-        let cache_key = format!("{:02}{:02}", i, j);
-        cache.push(cache_key);
         println!("  is NOT reachable (wrong color)");
         return false;
     }
@@ -58,8 +56,9 @@ fn is_reachable(
             println!("  is coming from south");
             return false;
         }
-        cache.push(cache_key);
-        if is_reachable(image, sr, sc, i - 1, j, m, n, cache.clone(), starting_color) {
+        let mut temp = cache.clone();
+        temp.push(cache_key);
+        if is_reachable(image, sr, sc, i - 1, j, m, n, temp, starting_color) {
             println!("  is reachable from south");
             return true;
         }
@@ -70,8 +69,9 @@ fn is_reachable(
             println!("  is coming from east");
             return false;
         }
-        cache.push(cache_key);
-        if is_reachable(image, sr, sc, i, j - 1, m, n, cache.clone(), starting_color) {
+        let mut temp = cache.clone();
+        temp.push(cache_key);
+        if is_reachable(image, sr, sc, i, j - 1, m, n, temp, starting_color) {
             println!("  is reachable from east");
             return true;
         }
@@ -82,8 +82,9 @@ fn is_reachable(
             println!("  is coming from north");
             return false;
         }
-        cache.push(cache_key);
-        if is_reachable(image, sr, sc, i + 1, j, m, n, cache.clone(), starting_color) {
+        let mut temp = cache.clone();
+        temp.push(cache_key);
+        if is_reachable(image, sr, sc, i + 1, j, m, n, temp, starting_color) {
             println!("  is reachable from north");
             return true;
         }
@@ -94,14 +95,13 @@ fn is_reachable(
             println!("  is coming from west");
             return false;
         }
-        cache.push(cache_key);
-        if is_reachable(image, sr, sc, i, j + 1, m, n, cache.clone(), starting_color) {
+        let mut temp = cache.clone();
+        temp.push(cache_key);
+        if is_reachable(image, sr, sc, i, j + 1, m, n, temp, starting_color) {
             println!("  is reachable from west");
             return true;
         }
     }
-    let cache_key = format!("{:02}{:02}", i, j);
-    cache.push(cache_key);
     println!("  is NOT reachable (no path)");
     false
 }
