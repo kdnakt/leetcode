@@ -52,54 +52,46 @@ fn is_reachable(
     }
     if 0 < i {
         let cache_key = format!("{:02}{:02}", i - 1, j);
-        if cache.contains(&cache_key) {
-            println!("  is coming from south");
-            return false;
-        }
-        let mut temp = cache.clone();
-        temp.push(cache_key);
-        if is_reachable(image, sr, sc, i - 1, j, m, n, temp, starting_color) {
-            println!("  is reachable from south");
-            return true;
+        if !cache.contains(&cache_key) {
+            let mut temp = cache.clone();
+            temp.push(cache_key);
+            if is_reachable(image, sr, sc, i - 1, j, m, n, temp, starting_color) {
+                println!("  is reachable from south");
+                return true;
+            }
         }
     }
     if 0 < j {
         let cache_key = format!("{:02}{:02}", i, j - 1);
-        if cache.contains(&cache_key) {
-            println!("  is coming from east");
-            return false;
-        }
-        let mut temp = cache.clone();
-        temp.push(cache_key);
-        if is_reachable(image, sr, sc, i, j - 1, m, n, temp, starting_color) {
-            println!("  is reachable from east");
-            return true;
+        if !cache.contains(&cache_key) {
+            let mut temp = cache.clone();
+            temp.push(cache_key);
+            if is_reachable(image, sr, sc, i, j - 1, m, n, temp, starting_color) {
+                println!("  is reachable from east");
+                return true;
+            }
         }
     }
     if i + 1 < m {
         let cache_key = format!("{:02}{:02}", i + 1, j);
-        if cache.contains(&cache_key) {
-            println!("  is coming from north");
-            return false;
-        }
-        let mut temp = cache.clone();
-        temp.push(cache_key);
-        if is_reachable(image, sr, sc, i + 1, j, m, n, temp, starting_color) {
-            println!("  is reachable from north");
-            return true;
+        if !cache.contains(&cache_key) {
+            let mut temp = cache.clone();
+            temp.push(cache_key);
+            if is_reachable(image, sr, sc, i + 1, j, m, n, temp, starting_color) {
+                println!("  is reachable from north");
+                return true;
+            }
         }
     }
     if j + 1 < n {
         let cache_key = format!("{:02}{:02}", i, j + 1);
-        if cache.contains(&cache_key) {
-            println!("  is coming from west");
-            return false;
-        }
-        let mut temp = cache.clone();
-        temp.push(cache_key);
-        if is_reachable(image, sr, sc, i, j + 1, m, n, temp, starting_color) {
-            println!("  is reachable from west");
-            return true;
+        if !cache.contains(&cache_key) {
+            let mut temp = cache.clone();
+            temp.push(cache_key);
+            if is_reachable(image, sr, sc, i, j + 1, m, n, temp, starting_color) {
+                println!("  is reachable from west");
+                return true;
+            }
         }
     }
     println!("  is NOT reachable (no path)");
@@ -204,6 +196,20 @@ fn main() {
     let expected = vec![
         vec![0,2,2],
         vec![2,2,2],
+    ];
+    assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
+
+    // Failed test 3
+    let image = vec![
+        vec![0,1,1],
+        vec![1,1,0],
+    ];
+    let sr = 1;
+    let sc = 0;
+    let color = 2;
+    let expected = vec![
+        vec![0,2,2],
+        vec![2,2,0],
     ];
     assert_eq!(Solution::flood_fill(image, sr, sc, color), expected);
 }
