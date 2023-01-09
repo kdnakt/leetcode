@@ -18,7 +18,7 @@ impl Solution {
             let row: &mut Vec<i32> = res.get_mut(i).unwrap();
             for j in 0..n {
                 println!("i={i},j={j}");
-                let mut cache: Vec<String> = Vec::new();
+                let mut cache: Vec<usize> = Vec::new();
                 if is_reachable(&image, sr as usize, sc as usize, i, j, m, n, &mut cache, starting_color) {
                     println!("  Reachable\n");
                     row.insert(j, color);
@@ -37,12 +37,12 @@ fn is_reachable(
     sr: usize, sc: usize,
     i: usize, j: usize,
     m: usize, n: usize,
-    cache: &mut Vec<String>,
+    cache: &mut Vec<usize>,
     starting_color: &i32
 ) -> bool {
     println!("i={i},j={j},cache={:?}", cache);
     if sr == i && sc == j {
-        let cache_key = format!("{:02}{:02}", i, j);
+        let cache_key = 100 * i + j;
         cache.push(cache_key);
         println!("  is source");
         return true;
@@ -52,7 +52,7 @@ fn is_reachable(
         return false;
     }
     if 0 < i {
-        let cache_key = format!("{:02}{:02}", i - 1, j);
+        let cache_key = 100 * (i - 1) + j;
         if !cache.contains(&cache_key) {
             cache.push(cache_key);
             if is_reachable(image, sr, sc, i - 1, j, m, n, cache, starting_color) {
@@ -62,7 +62,7 @@ fn is_reachable(
         }
     }
     if 0 < j {
-        let cache_key = format!("{:02}{:02}", i, j - 1);
+        let cache_key = 100 * i + j - 1;
         if !cache.contains(&cache_key) {
             cache.push(cache_key);
             if is_reachable(image, sr, sc, i, j - 1, m, n, cache, starting_color) {
@@ -72,7 +72,7 @@ fn is_reachable(
         }
     }
     if i + 1 < m {
-        let cache_key = format!("{:02}{:02}", i + 1, j);
+        let cache_key = 100 * (i + 1) + j;
         if !cache.contains(&cache_key) {
             cache.push(cache_key);
             if is_reachable(image, sr, sc, i + 1, j, m, n, cache, starting_color) {
@@ -82,7 +82,7 @@ fn is_reachable(
         }
     }
     if j + 1 < n {
-        let cache_key = format!("{:02}{:02}", i, j + 1);
+        let cache_key = 100 * i + j + 1;
         if !cache.contains(&cache_key) {
             cache.push(cache_key);
             if is_reachable(image, sr, sc, i, j + 1, m, n, cache, starting_color) {
