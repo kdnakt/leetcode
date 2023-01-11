@@ -1,7 +1,15 @@
 struct Solution;
+use std::cmp::min;
 impl Solution {
     pub fn min_cost_climbing_stairs(cost: Vec<i32>) -> i32 {
-        0
+        let len = cost.len();
+        let mut dp: Vec<i32> = Vec::new();
+        dp.push(cost[0]);
+        dp.push(cost[1]);
+        for i in 2..len {
+            dp.push(min(dp[i - 1], dp[i - 2]) + cost[i]);
+        }
+        min(dp[len - 1], dp[len - 2])
     }
 }
 
