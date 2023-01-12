@@ -3,6 +3,30 @@ impl Solution {
     pub fn shortest_completing_word(
         license_plate: String, words: Vec<String>
     ) -> String {
+        let chars: Vec<String> = license_plate.chars()
+            .filter(|&c| ('a' < c && c < 'z') || ('A' < c && c < 'Z'))
+            .map(|c| c.to_lowercase().to_string())
+            .collect();
+        println!("{:?}", chars);
+        for word in words {
+            let mut target = word.clone();
+            println!("{:?}", word);
+            let mut result = true;
+            for c in &chars {
+                let ch = c.chars().next().unwrap();
+                if target.contains(ch) {
+                    target = target.replacen(ch, "", 1);
+                    println!(" true: next target={target}");
+                } else {
+                    println!(" false");
+                    result = false;
+                    break;
+                }
+            }
+            if result {
+                return word;
+            }
+        }
         license_plate
     }
 }
