@@ -8,6 +8,7 @@ impl Solution {
             .map(|c| c.to_lowercase().to_string())
             .collect();
         println!("{:?}", chars);
+        let mut answer = license_plate;
         for word in words {
             let mut target = word.clone();
             println!("{:?}", word);
@@ -23,11 +24,11 @@ impl Solution {
                     break;
                 }
             }
-            if result {
-                return word;
+            if result && word.len() < answer.len() {
+                answer = word;
             }
         }
-        license_plate
+        answer
     }
 }
 
