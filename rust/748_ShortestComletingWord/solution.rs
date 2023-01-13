@@ -42,7 +42,7 @@ fn main() {
     ];
     assert_eq!(Solution::shortest_completing_word(license_plate, words), "steps".to_string());
 
-    // Example 2
+    // Example 2: first shortest word is the answer
     let license_plate = "1s3 456".to_string();
     let words = vec![
         "looks".to_string(),
