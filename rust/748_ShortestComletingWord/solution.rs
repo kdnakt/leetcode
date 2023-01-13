@@ -8,7 +8,8 @@ impl Solution {
             .map(|c| c.to_lowercase().to_string())
             .collect();
         println!("{:?}", chars);
-        let mut answer = license_plate;
+        let mut answer = words[0].clone();
+        let mut is_first_word = true;
         for word in words {
             let mut target = word.clone();
             println!("{:?}", word);
@@ -24,8 +25,9 @@ impl Solution {
                     break;
                 }
             }
-            if result && word.len() < answer.len() {
+            if result && (is_first_word || word.len() < answer.len()) {
                 answer = word;
+                is_first_word = false;
             }
         }
         answer
@@ -52,5 +54,21 @@ fn main() {
         "show".to_string(),
     ];
     assert_eq!(Solution::shortest_completing_word(license_plate, words), "pest".to_string());
+
+    // Failed test 1
+    let license_plate = "Ah71752".to_string();
+    let words = vec![
+        "suggest".to_string(),
+        "letter".to_string(),
+        "of".to_string(),
+        "husband".to_string(),
+        "easy".to_string(),
+        "education".to_string(),
+        "drug".to_string(),
+        "prevent".to_string(),
+        "writer".to_string(),
+        "old".to_string(),
+    ];
+    assert_eq!(Solution::shortest_completing_word(license_plate, words), "husband".to_string());
 
 }
