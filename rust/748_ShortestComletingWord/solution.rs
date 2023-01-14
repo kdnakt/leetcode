@@ -4,7 +4,7 @@ impl Solution {
         license_plate: String, words: Vec<String>
     ) -> String {
         let chars: Vec<String> = license_plate.chars()
-            .filter(|&c| ('a' < c && c < 'z') || ('A' < c && c < 'Z'))
+            .filter(|&c| ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
             .map(|c| c.to_lowercase().to_string())
             .collect();
         println!("{:?}", chars);
@@ -70,5 +70,20 @@ fn main() {
         "old".to_string(),
     ];
     assert_eq!(Solution::shortest_completing_word(license_plate, words), "husband".to_string());
+
+    // Failed test 2
+    let license_plate = "Ar16259".to_string();
+    let words = vec![
+        "nature".to_string(),
+        "though".to_string(),
+        "party".to_string(),
+        "food".to_string(),
+        "any".to_string(),
+        "democratic".to_string(),
+        "eat".to_string(),
+        "structure".to_string(),
+        "our".to_string(),
+    ];
+    assert_eq!(Solution::shortest_completing_word(license_plate, words), "party".to_string());
 
 }
