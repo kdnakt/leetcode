@@ -1,7 +1,25 @@
 struct Solution;
 impl Solution {
     pub fn shortest_to_char(s: String, c: char) -> Vec<i32> {
-        Vec::new()
+        let mut res = Vec::new();
+        let chars = s.chars();
+        println!("{:?}", chars);
+        for (i, _) in s.chars().enumerate() {
+            res.push(shortest_to_char(&chars, i, c));
+        }
+        res
+    }
+}
+
+fn shortest_to_char(
+    chars: &std::str::Chars,
+    curr: usize,
+    c: char,
+) -> i32 {
+    if chars.clone().nth(curr).unwrap() == c {
+        0
+    } else {
+        1
     }
 }
 
