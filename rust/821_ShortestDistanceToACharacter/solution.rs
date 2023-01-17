@@ -3,7 +3,7 @@ impl Solution {
     pub fn shortest_to_char(s: String, c: char) -> Vec<i32> {
         let mut res = Vec::new();
         let chars = s.chars();
-        println!("{:?}", chars);
+        println!("c={c},{:?}", chars);
         for (i, _) in s.chars().enumerate() {
             res.push(shortest_to_char(&chars, i, c));
         }
@@ -16,11 +16,36 @@ fn shortest_to_char(
     curr: usize,
     c: char,
 ) -> i32 {
+    println!("shortest... {curr}");
     if chars.clone().nth(curr).unwrap() == c {
-        0
-    } else {
-        1
+        return 0;
     }
+    let left = if 0 < curr {
+        find(chars, curr - 1, curr, c) + 1
+    } else { i32::MAX };
+    let right = if curr < chars.clone().count() - 1 {
+        find(chars, curr + 1, curr, c) + 1
+    } else { i32::MAX };
+    std::cmp::min(left, right)
+}
+
+fn find(
+    chars: &std::str::Chars,
+    curr: usize,
+    org: usize,
+    c: char,
+) -> i32 {
+    println!("finding.... {org} {curr}");
+    if chars.clone().nth(curr).unwrap() == c {
+        return 0;
+    }
+    let left = if 0 < curr && curr < org {
+        find(chars, curr - 1, org, c) + 1
+    } else { 0 };
+    let right = if org < curr && curr < chars.clone().count() - 1 {
+        find(chars, curr + 1, org, c) + 1
+    } else { 0 };
+    std::cmp::max(left, right)
 }
 
 fn main() {
