@@ -5,7 +5,7 @@ impl Solution {
         let chars = s.chars();
         println!("c={c},{:?}", chars);
         for (i, _) in s.chars().enumerate() {
-            res.push(shortest_to_char(&chars, i, c));
+            res.push(shortest_to_char(&chars, i, c, &res));
         }
         res
     }
@@ -15,17 +15,19 @@ fn shortest_to_char(
     chars: &std::str::Chars,
     curr: usize,
     c: char,
+    res: &Vec<i32>,
 ) -> i32 {
     println!("shortest... {curr}");
     if chars.clone().nth(curr).unwrap() == c {
         return 0;
     }
     let left = if 0 < curr {
-        find(chars, curr - 1, curr, c) + 1
+        res[curr - 1] + 1
     } else { i32::MAX };
     let right = if curr < chars.clone().count() - 1 {
         find(chars, curr + 1, curr, c) + 1
     } else { i32::MAX };
+    println!("left={left},right={right}");
     std::cmp::min(left, right)
 }
 
