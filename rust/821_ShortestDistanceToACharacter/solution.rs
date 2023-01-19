@@ -62,4 +62,10 @@ fn main() {
     let c = 'b';
     let expected = vec![3,2,1,0];
     assert_eq!(Solution::shortest_to_char(s.to_string(), c), expected);
+
+    // Failed test 1
+    let s = "baaa";
+    let c = 'b';
+    let expected = vec![0,1,2,3];
+    assert_eq!(Solution::shortest_to_char(s.to_string(), c), expected);
 }
