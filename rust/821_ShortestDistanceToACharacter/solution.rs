@@ -25,7 +25,12 @@ fn shortest_to_char(
         res[curr - 1] + 1
     } else { i32::MAX };
     let right = if curr < chars.clone().count() - 1 {
-        find(chars, curr + 1, curr, c) + 1
+        let r = find(chars, curr + 1, curr, c);
+        if r == i32::MAX {
+            r
+        } else {
+            r + 1
+        }
     } else { i32::MAX };
     println!("left={left},right={right}");
     std::cmp::min(left, right)
@@ -45,8 +50,13 @@ fn find(
         find(chars, curr - 1, org, c) + 1
     } else { 0 };
     let right = if org < curr && curr < chars.clone().count() - 1 {
-        find(chars, curr + 1, org, c) + 1
-    } else { 0 };
+        let r = find(chars, curr + 1, org, c);
+        if r == i32::MAX {
+            r
+        } else {
+            r + 1
+        }
+    } else { i32::MAX };
     std::cmp::max(left, right)
 }
 
