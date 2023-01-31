@@ -1,7 +1,19 @@
 struct Solution;
 impl Solution {
     pub fn large_group_positions(s: String) -> Vec<Vec<i32>> {
-        Vec::new()
+        let mut res = Vec::new();
+        let mut curr = ' ';
+        let mut start = 0;
+        for (index, c) in s.char_indices() {
+            if curr != c {
+                if 2 < index - start {
+                    res.push(vec![start as i32, (index - 1) as i32]);
+                }
+                start = index;
+            }
+            curr = c;
+        }
+        res
     }
 }
 
