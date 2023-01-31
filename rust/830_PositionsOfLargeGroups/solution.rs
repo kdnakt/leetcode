@@ -13,7 +13,7 @@ fn main() {
 
     // Example 2
     let s = "abc";
-    let expected = vec![];
+    let expected: Vec<Vec<i32>> = vec![];
     assert_eq!(Solution::large_group_positions(s.to_string()), expected);
 
     // Example 3
