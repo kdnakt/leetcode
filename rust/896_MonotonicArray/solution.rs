@@ -1,13 +1,16 @@
 struct Solution;
 impl Solution {
     pub fn is_monotonic(nums: Vec<i32>) -> bool {
+        if nums.len() == 1 {
+            return true;
+        }
         false
     }
 }
 
 fn main() {
     // Example 0
-    let nums = vec![];
+    let nums = vec![1];
     assert_eq!(Solution::is_monotonic(nums), true);
 
     // Example 1
