@@ -6,6 +6,10 @@ impl Solution {
 }
 
 fn main() {
+    // Example 0
+    let nums = vec![];
+    assert_eq!(Solution::is_monotonic(nums), true);
+
     // Example 1
     let nums = vec![1,2,2,3];
     assert_eq!(Solution::is_monotonic(nums), true);
