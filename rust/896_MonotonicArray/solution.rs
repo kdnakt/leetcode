@@ -4,7 +4,23 @@ impl Solution {
         if nums.len() <= 2 {
             return true;
         }
-        false
+        let mut increasing = false;
+        let mut decreasing = false;
+        for i in 0..nums.len()-1 {
+            if nums[i] == nums[i+1] {
+                continue;
+            }
+            if nums[i] < nums[i+1] {
+                increasing = true;
+            }
+            if nums[i] > nums[i+1] {
+                decreasing = true;
+            }
+            if increasing && decreasing {
+                return false;
+            }
+        }
+        true
     }
 }
 
